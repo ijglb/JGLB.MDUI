@@ -1,0 +1,9 @@
+﻿@namespace JGLB.MDUI
+@inherits MDUIComponentBase
+@using JGLB.MDUI.Events
+
+<CascadingValue Value="this" IsFixed="true">
+    <div id="@Id" class="@ClassMapper.Class" style="@Style" @ref="@Ref" @onMduiTabChange="OnMduiTabChange" mdui-tab="@getOptionsStr()">
+        @ChildContent
+    </div>
+</CascadingValue>

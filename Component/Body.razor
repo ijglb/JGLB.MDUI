@@ -1,0 +1,8 @@
+﻿@namespace JGLB.MDUI
+@inherits MDUIComponentBase
+
+<CascadingValue Value="this" IsFixed="true">
+    <div id="@Id" class="@ClassMapper.Class" style="@Style" @ref="@Ref">
+        @ChildContent
+    </div>
+</CascadingValue>

@@ -1,0 +1,13 @@
+﻿@namespace JGLB.MDUI
+@using System.Globalization;
+@inherits MDUIComponentBase
+
+<div id="@Id" class="@ClassMapper.Class" style="@Style" @ref="@Ref">
+    @if (Process == null)
+    {
+        <div class="mdui-progress-indeterminate">@ChildContent</div>
+    }else
+    {
+        <div class="mdui-progress-determinate" style="@($"width: {Process?.ToString("F",CultureInfo.InvariantCulture)}%;")">@ChildContent</div>
+    }
+</div>
