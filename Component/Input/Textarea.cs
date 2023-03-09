@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace JGLB.MDUI
 {
     /// <summary>
-    /// 切换到指定选项时，事件将被触发。
+    /// 多行文本框
     /// </summary>
-    public class TabShowEventArgs : EventArgs
+    public class Textarea: Text
     {
-        public TabItem Instance { get; set; }
+        protected override string InputTag => "textarea";
     }
 }

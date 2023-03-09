@@ -38,6 +38,7 @@ namespace JGLB.MDUI
         public bool ScrollToolbarHide { get; set; }
 
         internal Tab? Tab { get; set; }
+        internal Toolbar? Toolbar { get; set; }
 
         protected override void OnInitialized()
         {

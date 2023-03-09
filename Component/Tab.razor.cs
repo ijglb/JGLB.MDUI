@@ -178,7 +178,7 @@ namespace JGLB.MDUI
             }*/
             if (_JsInstance != null)
             {
-                await _JsInstance.InvokeVoidAsync("show", id);
+                await _JsInstance.InvokeVoidAsync("show", $"#{id}");
             }
         }
 
@@ -246,16 +246,16 @@ namespace JGLB.MDUI
         /// <summary>
         /// 切换选项卡的触发方式。 click: 点击切换（默认） hover: 鼠标悬浮切换 
         /// </summary>
-        public string Trigger { get; set; } = "click";
+        public string trigger { get; set; } = "click";
 
         /// <summary>
         /// 是否启用循环切换，若为 true，则最后一个选项激活时调用 next 方法将回到第一个选项，第一个选项激活时调用 prev 方法将回到最后一个选项。
         /// </summary>
-        public bool Loop { get; set; }
+        public bool loop { get; set; }
 
         public override string ToString()
         {
-            return $"{{trigger:'{Trigger}',loop:{Loop}}}";
+            return $"{{trigger:'{trigger}',loop:{loop}}}";
         }
     }
 }

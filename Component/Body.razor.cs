@@ -32,6 +32,16 @@ namespace JGLB.MDUI
         /// </summary>
         [Parameter]
         public Color AccentColor { get; set; } = Color.None;
+        /// <summary>
+        /// 左侧有默认打开的抽屉栏
+        /// </summary>
+        [Parameter]
+        public bool DrawerLeft { get; set; }
+        /// <summary>
+        /// 右侧有默认打开的抽屉栏
+        /// </summary>
+        [Parameter]
+        public bool DrawerRight { get; set; }
 
         internal Appbar? Appbar { get; set; }
 
@@ -46,8 +56,11 @@ namespace JGLB.MDUI
                 .GetIf(() => Theme.GetDescription(), () => Theme != Theme.Light)
                 .GetIf(() => $"mdui-theme-primary-{PrimaryColor.GetDescription()}", () => PrimaryColor != Color.None)
                 .GetIf(() => $"mdui-theme-accent-{AccentColor.GetDescription()}", () => AccentColor != Color.None)
-                .If("mdui-appbar-with-tab",()=> Appbar != null && Appbar.Fixed && Appbar.Tab != null)
+                .If("mdui-appbar-with-toolbar", () => Appbar != null && Appbar.Fixed && Appbar.Toolbar != null)
+                .If("mdui-appbar-with-tab", () => Appbar != null && Appbar.Fixed && Appbar.Tab != null)
                 .If("mdui-appbar-with-tab-larger", () => Appbar != null && Appbar.Fixed && Appbar.Tab != null && Appbar.Tab.HasIcon)
+                .If("mdui-drawer-body-left", () => DrawerLeft)
+                .If("mdui-drawer-body-right", () => DrawerRight)
                 ;
         }
 

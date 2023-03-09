@@ -12,7 +12,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>极光萝卜</Authors>
-	<Version>0.0.1</Version>
+	<Version>0.0.2-alpha</Version>
 	<AssemblyVersion>$(Version)</AssemblyVersion>
 	<FileVersion>$(Version)</FileVersion>
   </PropertyGroup>

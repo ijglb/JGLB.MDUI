@@ -9,9 +9,8 @@ namespace JGLB.MDUI
     /// <summary>
     /// 切换选项时，事件将被触发。
     /// </summary>
-    public class TabChangeEventArgs : EventArgs
+    public class TabChangeEventArgs : MDUIEventArgs<Tab>
     {
-        public Tab Instance { get; set; }
         /// <summary>
         /// 激活的选项的索引号
         /// </summary>

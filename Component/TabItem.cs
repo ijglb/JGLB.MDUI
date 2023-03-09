@@ -23,7 +23,7 @@ namespace JGLB.MDUI
             builder.OpenComponent
         });*/
         [CascadingParameter]
-        private Tab Parent { get; set; }
+        private Tab? Parent { get; set; }
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> Attributes { get; set; }
         /// <summary>
@@ -65,7 +65,7 @@ namespace JGLB.MDUI
         /// 切换到选项时，事件将被触发。
         /// </summary>
         [Parameter]
-        public EventCallback<TabShowEventArgs> OnShow {get;set;}
+        public EventCallback<MDUIEventArgs<TabItem>> OnShow {get;set;}
 
         [Inject]
         private NavigationManager NavigationManger { get; set; }
@@ -75,7 +75,7 @@ namespace JGLB.MDUI
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            Parent.AddTabItem(this);
+            Parent?.AddTabItem(this);
             NavigationManger.LocationChanged += OnLocationChanged;
 
             SetClassMap();
@@ -235,7 +235,7 @@ namespace JGLB.MDUI
                     }
                     if (OnShow.HasDelegate) 
                     {
-                        OnShow.InvokeAsync(new TabShowEventArgs { Instance = this });
+                        OnShow.InvokeAsync(new MDUIEventArgs<TabItem> { Instance = this });
                     }
                 }
             }
