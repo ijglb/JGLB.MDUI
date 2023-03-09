@@ -13,8 +13,8 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>极光萝卜</Authors>
 	<Version>0.0.2-alpha</Version>
-	<AssemblyVersion>$(Version)</AssemblyVersion>
-	<FileVersion>$(Version)</FileVersion>
+	<AssemblyVersion>0.0.2</AssemblyVersion>
+	<FileVersion>0.0.2</FileVersion>
   </PropertyGroup>
 
 
