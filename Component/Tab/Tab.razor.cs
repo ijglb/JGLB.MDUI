@@ -50,11 +50,11 @@ namespace JGLB.MDUI
         /// </summary>
         [Parameter]
         public EventCallback<TabChangeEventArgs> OnChange { get; set; }
-
         /// <summary>
         /// 含有有图标的tabItem
         /// </summary>
-        internal bool HasIcon { get; set; }
+        [Parameter]
+        public bool HasIcon { get; set; }
 
         private IJSObjectReference? _JsInstance;
 
@@ -94,13 +94,19 @@ namespace JGLB.MDUI
             }
         }
 
+        internal void SetHasIcon(bool value)
+        {
+            HasIcon = value;
+        }
+
+        #region 公开方法
         /// <summary>
         /// 切换到上一个选项
         /// </summary>
         /// <returns></returns>
         public async Task Prev()
         {
-            if (_JsInstance != null) 
+            if (_JsInstance != null)
             {
                 await _JsInstance.InvokeVoidAsync("prev");
             }
@@ -108,19 +114,18 @@ namespace JGLB.MDUI
         /// <summary>
         /// 切换到下一个选项
         /// </summary>
-        public async Task Next() 
+        public async Task Next()
         {
             if (_JsInstance != null)
             {
                 await _JsInstance.InvokeVoidAsync("next");
             }
         }
-
         /// <summary>
         /// 显示指定的选项。
         /// </summary>
         /// <param name="index">索引</param>
-        public async Task Show(int index) 
+        public async Task Show(int index)
         {
             if (_JsInstance != null)
             {
@@ -143,13 +148,15 @@ namespace JGLB.MDUI
         /// 当父元素的宽度发生变化时，需要调用该方法重新设置指示器位置。当在选项卡中动态添加了新的选项时，也需要调用该方法使新的选项生效。
         /// </summary>
         /// <returns></returns>
-        public async Task HandleUpdate() 
+        public async Task HandleUpdate()
         {
             if (_JsInstance != null)
             {
                 await _JsInstance.InvokeVoidAsync("handleUpdate");
             }
         }
+        #endregion
+
 
         private async Task OnMduiTabChange(TabChangeEventArgs args)
         {

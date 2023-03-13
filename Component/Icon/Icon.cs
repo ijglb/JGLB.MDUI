@@ -35,6 +35,9 @@ namespace JGLB.MDUI
         [Parameter]
         public bool MenuItemIcon { get; set; }
 
+        [CascadingParameter]
+        private Tab? Tab { get; set; }
+
         protected override string _Tag => "i";
 
         protected override string _CSS => "mdui-icon";
@@ -42,7 +45,7 @@ namespace JGLB.MDUI
         protected override void OnInitialized()
         {
             base.OnInitialized();
-
+            Tab?.SetHasIcon(true);
             SetClassMap();
         }
 
