@@ -4274,9 +4274,8 @@
       if (this.$tabs.length && this.activeIndex === -1) {
           this.activeIndex = 0;
       }
-      // @jglb 初始化暂不处理
       // 设置激活状态选项卡
-      //this.setActive();
+      this.setActive();
       // 监听窗口大小变化事件，调整指示器位置
       $window.on('resize', $.throttle(function () { return this$1.setIndicatorPosition(); }, 100));
       // 监听点击选项卡事件
@@ -4351,12 +4350,12 @@
                   this$1.triggerEvent('show', $tab);
                   $tab.addClass('mdui-tab-active');
               }
-              $(targetId).show();
+              try { $(targetId).show(); } catch { }
               this$1.setIndicatorPosition();
           }
           else {
               $tab.removeClass('mdui-tab-active');
-              $(targetId).hide();
+              try { $(targetId).hide(); } catch { }
           }
       });
   };
