@@ -31,14 +31,22 @@ namespace JGLB.MDUI
         /// opened：默认显示 closed：默认隐藏
         /// </summary>
         [Parameter]
-        public DrawerState DefaultState { get; set; } = DrawerState.unknown;
+        public OpenCloseState DefaultState { get; set; } = OpenCloseState.unknown;
+        /// <summary>
+        /// 打开抽屉栏时是否显示遮罩层。该参数只对中等屏幕及以上的设备有效，在超小屏和小屏设备上始终会显示遮罩层
+        /// </summary>
         [Parameter]
-        public DrawerOptions? Options { get; set; }
+        public bool Overlay { get; set; }
+        /// <summary>
+        /// 是否启用滑动手势。
+        /// </summary>
+        [Parameter]
+        public bool Swipe { get; set; }
         /// <summary>
         /// 状态变更时触发 打开/关闭
         /// </summary>
         [Parameter]
-        public EventCallback<DrawerStateChangeEventArgs> OnStateChange { get; set; }
+        public EventCallback<StateChangeEventArgs<Drawer>> OnStateChange { get; set; }
 
         private IJSObjectReference? _JsInstance;
 
@@ -53,17 +61,17 @@ namespace JGLB.MDUI
             ClassMapper.Add("mdui-drawer")
                 .If("mdui-drawer-right", () => Right)
                 .If("mdui-drawer-full-height", () => FullHeight)
-                .If("mdui-drawer-open", () => DefaultState == DrawerState.opened || DefaultState == DrawerState.opening)
-                .If("mdui-drawer-close", () => DefaultState == DrawerState.closed || DefaultState == DrawerState.closing)
+                .If("mdui-drawer-open", () => DefaultState == OpenCloseState.opened || DefaultState == OpenCloseState.opening)
+                .If("mdui-drawer-close", () => DefaultState == OpenCloseState.closed || DefaultState == OpenCloseState.closing)
                 ;
         }
 
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
-            if (Options != null && Options.overlay)
+            if (Overlay)
             {
-                DefaultState = DrawerState.closed;
+                DefaultState = OpenCloseState.closed;
             }
         }
 
@@ -71,41 +79,42 @@ namespace JGLB.MDUI
         {
             if (firstRender)
             {
-                _JsInstance = await Js.InvokeAsync<IJSObjectReference>("mduiblazor.Drawer", Ref, Options);
+                _JsInstance = await Js.InvokeAsync<IJSObjectReference>("mduiblazor.Drawer", Ref, new { overlay = Overlay, swipe = Swipe });
             }
         }
 
-        #region 事件
+        #region 内部事件回调
         private async Task onMduiDrawerOpen(EventArgs args)
         {
             if (OnStateChange.HasDelegate)
             {
-                await OnStateChange.InvokeAsync(new DrawerStateChangeEventArgs { Instance = this, State = DrawerState.opening });
+                await OnStateChange.InvokeAsync(new StateChangeEventArgs<Drawer> { Instance = this, State = OpenCloseState.opening });
             }
         }
         private async Task onMduiDrawerOpened(EventArgs args)
         {
             if (OnStateChange.HasDelegate)
             {
-                await OnStateChange.InvokeAsync(new DrawerStateChangeEventArgs { Instance = this, State = DrawerState.opened });
+                await OnStateChange.InvokeAsync(new StateChangeEventArgs<Drawer> { Instance = this, State = OpenCloseState.opened });
             }
         }
         private async Task onMduiDrawerClose(EventArgs args)
         {
             if (OnStateChange.HasDelegate)
             {
-                await OnStateChange.InvokeAsync(new DrawerStateChangeEventArgs { Instance = this, State = DrawerState.closing });
+                await OnStateChange.InvokeAsync(new StateChangeEventArgs<Drawer> { Instance = this, State = OpenCloseState.closing });
             }
         }
         private async Task onMduiDrawerClosed(EventArgs args)
         {
             if (OnStateChange.HasDelegate)
             {
-                await OnStateChange.InvokeAsync(new DrawerStateChangeEventArgs { Instance = this, State = DrawerState.closed });
+                await OnStateChange.InvokeAsync(new StateChangeEventArgs<Drawer> { Instance = this, State = OpenCloseState.closed });
             }
         }
         #endregion
 
+        #region 公开方法
         /// <summary>
         /// 显示抽屉栏
         /// </summary>
@@ -143,9 +152,9 @@ namespace JGLB.MDUI
         /// 返回当前抽屉栏的状态
         /// </summary>
         /// <returns></returns>
-        public async Task<DrawerState> GetState()
+        public async Task<OpenCloseState> GetState()
         {
-            var state = DrawerState.unknown;
+            var state = OpenCloseState.unknown;
             if (_JsInstance != null)
             {
                 string stateStr = await _JsInstance.InvokeAsync<string>("getState");
@@ -153,24 +162,13 @@ namespace JGLB.MDUI
             }
             return state;
         }
+        #endregion
 
-    }
-
-    public class DrawerOptions 
-    {
-        public string target { get; set; }
-        /// <summary>
-        /// 打开抽屉栏时是否显示遮罩层。该参数只对中等屏幕及以上的设备有效，在超小屏和小屏设备上始终会显示遮罩层。
-        /// </summary>
-        public bool overlay { get; set; }
-        /// <summary>
-        /// 是否启用滑动手势。
-        /// </summary>
-        public bool swipe { get; set; }
-
-        public override string ToString()
+        protected override void Dispose(bool disposing)
         {
-            return string.IsNullOrEmpty(target) ? $"{{overlay:'{overlay}',swipe:{swipe}}}" : $"{{target:'{target}',overlay:'{overlay}',swipe:{swipe}}}";
+            _JsInstance?.DisposeAsync();
+            base.Dispose(disposing);
         }
+
     }
 }

@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 namespace JGLB.MDUI
 {
     /// <summary>
-    /// 抽屉栏状态变更 打开/关闭
+    /// 定义菜单项
     /// </summary>
-    public class FabWrapperStateChangeEventArgs : MDUIEventArgs<FabWrapper>
+    public class MenuItem : AbstractSimpleComponent
     {
-        public FabWrapperState State { get; set; }
+        protected override string _Tag => "li";
+
+        protected override string _CSS => "mdui-menu-item";
     }
 }

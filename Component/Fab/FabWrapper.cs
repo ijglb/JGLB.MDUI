@@ -27,7 +27,7 @@ namespace JGLB.MDUI
         /// 快速拨号菜单 状态变更
         /// </summary>
         [Parameter]
-        public EventCallback<FabWrapperStateChangeEventArgs> OnStateChange { get; set; }
+        public EventCallback<StateChangeEventArgs<FabWrapper>> OnStateChange { get; set; }
 
         /// <summary>
         /// 隐藏按钮
@@ -133,9 +133,9 @@ namespace JGLB.MDUI
         /// 返回当前快速拨号菜单的打开状态
         /// </summary>
         /// <returns></returns>
-        public async Task<FabWrapperState> GetState()
+        public async Task<OpenCloseState> GetState()
         {
-            FabWrapperState state = FabWrapperState.unknown;
+            OpenCloseState state = OpenCloseState.unknown;
             if (_JsInstance != null)
             {
                 string stateStr = await _JsInstance.InvokeAsync<string>("getState");
@@ -145,35 +145,41 @@ namespace JGLB.MDUI
         }
         #endregion
 
-        #region 事件
+        #region 内部事件回调
         private async Task onMduiFabOpen(EventArgs args)
         {
             if (OnStateChange.HasDelegate)
             {
-                await OnStateChange.InvokeAsync(new FabWrapperStateChangeEventArgs { Instance = this, State = FabWrapperState.opening });
+                await OnStateChange.InvokeAsync(new StateChangeEventArgs<FabWrapper> { Instance = this, State = OpenCloseState.opening });
             }
         }
         private async Task onMduiFabOpened(EventArgs args)
         {
             if (OnStateChange.HasDelegate)
             {
-                await OnStateChange.InvokeAsync(new FabWrapperStateChangeEventArgs { Instance = this, State = FabWrapperState.opened });
+                await OnStateChange.InvokeAsync(new StateChangeEventArgs<FabWrapper> { Instance = this, State = OpenCloseState.opened });
             }
         }
         private async Task onMduiFabClose(EventArgs args)
         {
             if (OnStateChange.HasDelegate)
             {
-                await OnStateChange.InvokeAsync(new FabWrapperStateChangeEventArgs { Instance = this, State = FabWrapperState.closing });
+                await OnStateChange.InvokeAsync(new StateChangeEventArgs<FabWrapper> { Instance = this, State = OpenCloseState.closing });
             }
         }
         private async Task onMduiFabClosed(EventArgs args)
         {
             if (OnStateChange.HasDelegate)
             {
-                await OnStateChange.InvokeAsync(new FabWrapperStateChangeEventArgs { Instance = this, State = FabWrapperState.closed });
+                await OnStateChange.InvokeAsync(new StateChangeEventArgs<FabWrapper> { Instance = this, State = OpenCloseState.closed });
             }
         }
         #endregion
+
+        protected override void Dispose(bool disposing)
+        {
+            _JsInstance?.DisposeAsync();
+            base.Dispose(disposing);
+        }
     }
 }

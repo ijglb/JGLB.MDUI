@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 namespace JGLB.MDUI
 {
     /// <summary>
-    /// 抽屉栏状态变更 打开/关闭
+    /// 定义一个纸片组件
     /// </summary>
-    public class DrawerStateChangeEventArgs : MDUIEventArgs<Drawer>
+    public class Chip : AbstractSimpleComponent
     {
-        public DrawerState State { get; set; }
+        protected override string _Tag => "div";
+
+        protected override string _CSS => "mdui-chip";
     }
 }

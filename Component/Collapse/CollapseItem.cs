@@ -35,15 +35,15 @@ namespace JGLB.MDUI
         /// 内容块状态变更时触发 打开/关闭
         /// </summary>
         [Parameter]
-        public EventCallback<CollapseItemStateChangeEventArgs> OnStateChange { get; set; }
+        public EventCallback<StateChangeEventArgs<CollapseItem>> OnStateChange { get; set; }
 
-        [CascadingParameter]
-        private Collapse? Parent { get; set; }
+        //[CascadingParameter]
+        //private Collapse? Parent { get; set; }
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            Parent?.AddItem(this);
+            //Parent?.AddItem(this);
             SetClassMap();
         }
 
@@ -78,28 +78,28 @@ namespace JGLB.MDUI
         {
             if (OnStateChange.HasDelegate)
             {
-                await OnStateChange.InvokeAsync(new CollapseItemStateChangeEventArgs { Instance = this, State = CollapseItemState.open });
+                await OnStateChange.InvokeAsync(new StateChangeEventArgs<CollapseItem> { Instance = this, State = OpenCloseState.opening });
             }
         }
         private async Task onMduiCollapseOpened(EventArgs args)
         {
             if (OnStateChange.HasDelegate)
             {
-                await OnStateChange.InvokeAsync(new CollapseItemStateChangeEventArgs { Instance = this, State = CollapseItemState.opened });
+                await OnStateChange.InvokeAsync(new StateChangeEventArgs<CollapseItem> { Instance = this, State = OpenCloseState.opened });
             }
         }
         private async Task onMduiCollapseClose(EventArgs args)
         {
             if (OnStateChange.HasDelegate)
             {
-                await OnStateChange.InvokeAsync(new CollapseItemStateChangeEventArgs { Instance = this, State = CollapseItemState.close });
+                await OnStateChange.InvokeAsync(new StateChangeEventArgs<CollapseItem> { Instance = this, State = OpenCloseState.closing });
             }
         }
         private async Task onMduiCollapseClosed(EventArgs args)
         {
             if (OnStateChange.HasDelegate)
             {
-                await OnStateChange.InvokeAsync(new CollapseItemStateChangeEventArgs { Instance = this, State = CollapseItemState.closed });
+                await OnStateChange.InvokeAsync(new StateChangeEventArgs<CollapseItem> { Instance = this, State = OpenCloseState.closed });
             }
         }
         #endregion

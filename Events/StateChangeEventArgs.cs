@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace JGLB.MDUI
 {
     /// <summary>
-    /// 抽屉栏状态变更 打开/关闭
+    /// 通用动画打开关闭事件
     /// </summary>
-    public class CollapseItemStateChangeEventArgs : MDUIEventArgs<CollapseItem>
+    public class StateChangeEventArgs<T> : MDUIEventArgs<T>
     {
-        public CollapseItemState State { get; set; }
+        public OpenCloseState State { get; set; }
     }
 }

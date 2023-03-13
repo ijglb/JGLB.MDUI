@@ -35,8 +35,16 @@ namespace JGLB.MDUI
         /// </summary>
         [Parameter]
         public bool FullWidth { get; set; }
+        /// <summary>
+        /// 切换选项卡的触发方式。 click: 点击切换（默认） hover: 鼠标悬浮切换 
+        /// </summary>
         [Parameter]
-        public TabOptions? Options { get; set; }
+        public string Trigger { get; set; } = "click";
+        /// <summary>
+        /// 是否启用循环切换，若为 true，则最后一个选项激活时调用 next 方法将回到第一个选项，第一个选项激活时调用 prev 方法将回到最后一个选项。
+        /// </summary>
+        [Parameter]
+        public bool Loop { get; set; }
         /// <summary>
         /// 切换选项时，事件将被触发。
         /// </summary>
@@ -48,11 +56,7 @@ namespace JGLB.MDUI
         /// </summary>
         internal bool HasIcon { get; set; }
 
-        private readonly List<TabItem> _TabItems = new List<TabItem>();
-        private int _ActiveIndex = -1;
         private IJSObjectReference? _JsInstance;
-        [Inject]
-        ILogger<Error> Logger { get; set; }
 
         protected override void OnInitialized()
         {
@@ -74,7 +78,7 @@ namespace JGLB.MDUI
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             //await base.OnAfterRenderAsync(firstRender);
-            if (firstRender) 
+            if (firstRender)
             {
                 /*try
                 {
@@ -85,7 +89,7 @@ namespace JGLB.MDUI
                     Logger.LogError(jsex, "mduiblazor.Tab");
                 }*/
                 //需要修改mdui.js Tab init时不调用setActive
-                _JsInstance = await Js.InvokeAsync<IJSObjectReference>("mduiblazor.Tab", Ref, Options);
+                _JsInstance = await Js.InvokeAsync<IJSObjectReference>("mduiblazor.Tab", Ref, new { trigger = Trigger, loop = Loop });
 
             }
         }
@@ -96,20 +100,6 @@ namespace JGLB.MDUI
         /// <returns></returns>
         public async Task Prev()
         {
-            /*if (_ActiveIndex == -1) 
-            {
-                return;
-            }
-            if (_ActiveIndex > 0)
-            {
-                _ActiveIndex--;
-            }
-            else if (Options != null && Options.Loop) 
-            {
-                _ActiveIndex = _TabItems.Count - 1;
-            }
-
-            SetActive();*/
             if (_JsInstance != null) 
             {
                 await _JsInstance.InvokeVoidAsync("prev");
@@ -120,20 +110,6 @@ namespace JGLB.MDUI
         /// </summary>
         public async Task Next() 
         {
-            /*if (_ActiveIndex == -1)
-            {
-                return;
-            }
-            if (_TabItems.Count > _ActiveIndex + 1)
-            {
-                _ActiveIndex++;
-            }
-            else if (Options != null && Options.Loop)
-            {
-                _ActiveIndex = 0;
-            }
-
-            SetActive();*/
             if (_JsInstance != null)
             {
                 await _JsInstance.InvokeVoidAsync("next");
@@ -146,15 +122,6 @@ namespace JGLB.MDUI
         /// <param name="index">索引</param>
         public async Task Show(int index) 
         {
-            /*if (_ActiveIndex == -1)
-            {
-                return;
-            }
-            if (index >= 0 && index < _TabItems.Count) 
-            {
-                _ActiveIndex = index;
-                SetActive();
-            }*/
             if (_JsInstance != null)
             {
                 await _JsInstance.InvokeVoidAsync("show", index);
@@ -166,16 +133,6 @@ namespace JGLB.MDUI
         /// <param name="id">ID</param>
         public async Task Show(string id)
         {
-            /*if (_ActiveIndex == -1)
-            {
-                return;
-            }
-            int tempIndex = _TabItems.FindIndex(x => x.Id == id);
-            if (tempIndex != -1)
-            {
-                _ActiveIndex = tempIndex;
-                SetActive();
-            }*/
             if (_JsInstance != null)
             {
                 await _JsInstance.InvokeVoidAsync("show", $"#{id}");
@@ -196,66 +153,18 @@ namespace JGLB.MDUI
 
         private async Task OnMduiTabChange(TabChangeEventArgs args)
         {
-            args.Instance = this;
-            _ActiveIndex = args.Index;
-            SetActive();
             if (OnChange.HasDelegate) 
             {
+                args.Instance = this;
                 await OnChange.InvokeAsync(args);
             }
         }
 
-        internal void SetActive()
-        {
-            if (_ActiveIndex != -1)
-            {
-                var tab = _TabItems[_ActiveIndex];
-                tab.SetActive(true);
-                _TabItems.ForEach(tabItem =>
-                {
-                    if (tabItem.Id != tab.Id)
-                    {
-                        tabItem.SetActive(false);
-                    }
-                });
-            }
-        }
-
-        internal void AddTabItem(TabItem tabItem)
-        {
-            _TabItems.Add(tabItem);
-            if (tabItem.IsActive && _ActiveIndex == -1)
-            {
-                _ActiveIndex = _TabItems.Count - 1;
-            }
-            HasIcon = _TabItems.Any(x => !string.IsNullOrWhiteSpace(x.Icon));
-        }
-
-        private string getOptionsStr() => Options == null ? "" : Options.ToString();
-
         protected override void Dispose(bool disposing)
         {
-            base.Dispose(disposing);
             _JsInstance?.DisposeAsync();
+            base.Dispose(disposing);
         }
 
-    }
-
-    public class TabOptions
-    {
-        /// <summary>
-        /// 切换选项卡的触发方式。 click: 点击切换（默认） hover: 鼠标悬浮切换 
-        /// </summary>
-        public string trigger { get; set; } = "click";
-
-        /// <summary>
-        /// 是否启用循环切换，若为 true，则最后一个选项激活时调用 next 方法将回到第一个选项，第一个选项激活时调用 prev 方法将回到最后一个选项。
-        /// </summary>
-        public bool loop { get; set; }
-
-        public override string ToString()
-        {
-            return $"{{trigger:'{trigger}',loop:{loop}}}";
-        }
     }
 }

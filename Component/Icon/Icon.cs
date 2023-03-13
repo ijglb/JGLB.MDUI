@@ -24,6 +24,17 @@ namespace JGLB.MDUI
         [Parameter]
         public string LocationInButton { get; set; }
 
+        /// <summary>
+        /// 面板项的展开收起图标
+        /// </summary>
+        [Parameter]
+        public bool PanelItemArrow { get; set; }
+        /// <summary>
+        /// 定义菜单图标
+        /// </summary>
+        [Parameter]
+        public bool MenuItemIcon { get; set; }
+
         protected override string _Tag => "i";
 
         protected override string _CSS => "mdui-icon";
@@ -39,8 +50,10 @@ namespace JGLB.MDUI
         {
             ClassMapper
                 .If("material-icons", () => string.IsNullOrWhiteSpace(ExIcon))
-                .If(ExIcon, () => !string.IsNullOrWhiteSpace(ExIcon))
-                .If($"mdui-icon-{LocationInButton}", () => !string.IsNullOrWhiteSpace(LocationInButton))
+                .GetIf(() => ExIcon, () => !string.IsNullOrWhiteSpace(ExIcon))
+                .GetIf(() => $"mdui-icon-{LocationInButton}", () => !string.IsNullOrWhiteSpace(LocationInButton))
+                .If("mdui-panel-item-arrow", () => PanelItemArrow)
+                .If("mdui-menu-item-icon", () => MenuItemIcon)
                 ;
         }
     }

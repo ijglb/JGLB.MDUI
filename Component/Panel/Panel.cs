@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -10,60 +10,55 @@ using System.Threading.Tasks;
 namespace JGLB.MDUI
 {
     /// <summary>
-    /// 折叠内容块插件
+    /// 可扩展面板
     /// </summary>
-    public class Collapse : AbstractSimpleComponent
+    public class Panel : AbstractSimpleComponent
     {
-        protected override string _Tag => Tag;
+        protected override string _Tag => "div";
 
-        protected override string _CSS => "mdui-collapse";
+        protected override string _CSS => "mdui-panel";
         /// <summary>
-        /// html标签
+        /// 移除打开的面板和其他面板之间的间距
         /// </summary>
         [Parameter]
-        public string Tag { get; set; } = "div";
+        public bool Gapless { get; set; }
         /// <summary>
-        /// 是否启用手风琴效果。
-        /// 为 true 时，最多只能有一个内容块处于打开状态，打开一个内容块时会关闭其他内容块。
-        /// 为 false 时，可同时打开多个内容块。
+        /// 使打开的面板具有弹出效果
+        /// </summary>
+        [Parameter]
+        public bool Popout { get; set; }
+        /// <summary>
+        /// 是否启用手风琴效果
+        /// 为 true 时，最多只能有一个面板项处于打开状态，打开一个面板项时会关闭其他面板项。
+        /// 为 false 时，可同时打开多个面板项。
         /// </summary>
         [Parameter]
         public bool Accordion { get; set; }
 
         private IJSObjectReference? _JsInstance;
 
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            ClassMapper
+                .If("mdui-panel-gapless", () => Gapless)
+                .If("mdui-panel-popout", () => Popout)
+                ;
+        }
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                _JsInstance = await Js.InvokeAsync<IJSObjectReference>("mduiblazor.Collapse", Ref, new { accordion = Accordion });
-            }
-        }
-
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            if (builder != null)
-            {
-                int seq = 0;
-                builder.CreateCascadingValue(ref seq, this, builder2 =>
-                {
-                    builder2.OpenElement(seq++, _Tag);
-                    builder2.AddMultipleAttributes(seq++, AdditionalAttributes);
-                    builder2.AddAttribute(seq++, "id", Id);
-                    builder2.AddAttribute(seq++, "class", ClassMapper.Class);
-                    builder2.AddAttribute(seq++, "style", Style);
-                    builder2.AddElementReferenceCapture(seq++, x => Ref = x);
-                    builder2.AddContent(seq++, ChildContent);
-                    builder2.CloseElement();
-                }, true);
+                _JsInstance = await Js.InvokeAsync<IJSObjectReference>("mduiblazor.Panel", Ref, new { accordion = Accordion });
             }
         }
 
         #region 公开方法
         /// <summary>
-        /// 打开内容块
+        /// 打开面板项
         /// </summary>
-        /// <param name="index">索引号</param>
+        /// <param name="index"></param>
         /// <returns></returns>
         public async Task Open(int index)
         {
@@ -73,9 +68,9 @@ namespace JGLB.MDUI
             }
         }
         /// <summary>
-        /// 打开内容块
+        /// 打开面板项
         /// </summary>
-        /// <param name="id">元素Id</param>
+        /// <param name="id"></param>
         /// <returns></returns>
         public async Task Open(string id)
         {
@@ -85,9 +80,9 @@ namespace JGLB.MDUI
             }
         }
         /// <summary>
-        /// 关闭内容块
+        /// 关闭面板项
         /// </summary>
-        /// <param name="index">索引号</param>
+        /// <param name="index"></param>
         /// <returns></returns>
         public async Task Close(int index)
         {
@@ -97,9 +92,9 @@ namespace JGLB.MDUI
             }
         }
         /// <summary>
-        /// 关闭内容块
+        /// 关闭面板项
         /// </summary>
-        /// <param name="id">元素Id</param>
+        /// <param name="id"></param>
         /// <returns></returns>
         public async Task Close(string id)
         {
@@ -109,9 +104,9 @@ namespace JGLB.MDUI
             }
         }
         /// <summary>
-        /// 切换内容块状态
+        /// 切换面板项状态
         /// </summary>
-        /// <param name="index">索引号</param>
+        /// <param name="index"></param>
         /// <returns></returns>
         public async Task Toggle(int index)
         {
@@ -121,9 +116,9 @@ namespace JGLB.MDUI
             }
         }
         /// <summary>
-        /// 切换内容块状态
+        /// 切换面板项状态
         /// </summary>
-        /// <param name="id">元素Id</param>
+        /// <param name="id"></param>
         /// <returns></returns>
         public async Task Toggle(string id)
         {
@@ -133,18 +128,18 @@ namespace JGLB.MDUI
             }
         }
         /// <summary>
-        /// 打开所有内容块。该方法仅在 Accordion 为 false 时有效。
+        /// 打开所有面板项。该方法仅在 Accordion 为 false 时有效
         /// </summary>
         /// <returns></returns>
         public async Task OpenAll()
         {
-            if (_JsInstance != null && !Accordion)
+            if (_JsInstance != null)
             {
                 await _JsInstance.InvokeVoidAsync("openAll");
             }
         }
         /// <summary>
-        /// 关闭所有内容块
+        /// 关闭所有面板项
         /// </summary>
         /// <returns></returns>
         public async Task CloseAll()

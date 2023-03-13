@@ -3,7 +3,7 @@
 @using JGLB.MDUI.Events
 
 <CascadingValue Value="this" IsFixed="true">
-    <div id="@Id" class="@ClassMapper.Class" style="@Style" @ref="@Ref" @onMduiTabChange="OnMduiTabChange" mdui-tab="@getOptionsStr()">
+    <div id="@Id" class="@ClassMapper.Class" style="@Style" @ref="@Ref" @onMduiTabChange="OnMduiTabChange">
         @ChildContent
     </div>
 </CascadingValue>

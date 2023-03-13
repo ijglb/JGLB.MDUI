@@ -43,6 +43,12 @@ namespace JGLB.MDUI
         [Parameter]
         public int XL { get; set; } = 0;
 
+        /// <summary>
+        /// 定义网格列表
+        /// </summary>
+        [Parameter]
+        public bool GridList { get; set; }
+
         protected override string _Tag => "div";
 
         protected override string _CSS => "";
@@ -62,6 +68,7 @@ namespace JGLB.MDUI
                 .GetIf(() => $"mdui-row-md-{MD}", () => Valid(MD))
                 .GetIf(() => $"mdui-row-lg-{LG}", () => Valid(LG))
                 .GetIf(() => $"mdui-row-xl-{XL}", () => Valid(XL))
+                .If("mdui-grid-list", () => GridList)
                 ;
         }
 

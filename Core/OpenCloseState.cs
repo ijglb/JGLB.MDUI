@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace JGLB.MDUI
 {
     /// <summary>
-    /// 折叠内容块状态
+    /// 通用动画打开关闭状态
     /// </summary>
-    public enum CollapseItemState
+    public enum OpenCloseState
     {
         /// <summary>
         /// 开始打开
         /// </summary>
-        open,
+        opening,
         /// <summary>
         /// 完成打开
         /// </summary>
@@ -22,7 +22,7 @@ namespace JGLB.MDUI
         /// <summary>
         /// 开始关闭
         /// </summary>
-        close,
+        closing,
         /// <summary>
         /// 完成关闭
         /// </summary>
