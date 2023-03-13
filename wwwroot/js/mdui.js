@@ -4350,12 +4350,16 @@
                   this$1.triggerEvent('show', $tab);
                   $tab.addClass('mdui-tab-active');
               }
-              try { $(targetId).show(); } catch { }
+              if (targetId.indexOf('#') == 0){
+                  $(targetId).show();
+              }
               this$1.setIndicatorPosition();
           }
           else {
               $tab.removeClass('mdui-tab-active');
-              try { $(targetId).hide(); } catch { }
+              if (targetId.indexOf('#') == 0) {
+                  $(targetId).hide();
+              }
           }
       });
   };
