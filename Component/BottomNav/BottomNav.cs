@@ -57,9 +57,9 @@ namespace JGLB.MDUI
             builder.AddAttribute(2, "id", Id);
             builder.AddAttribute(3, "class", ClassMapper.Class);
             builder.AddAttribute(4, "style", Style);
-            builder.AddElementReferenceCapture(5, x => Ref = x);
-            builder.AddContent(6, ChildContent);
-            builder.AddAttribute(7, "onMduiBottomNavChange", EventCallback.Factory.Create<BottomNavChangeEventArgs>(this, onMduiBottomNavChange));
+            builder.AddAttribute(5, "onMduiBottomNavChange", EventCallback.Factory.Create<BottomNavChangeEventArgs>(this, onMduiBottomNavChange));
+            builder.AddElementReferenceCapture(6, x => Ref = x);
+            builder.AddContent(7, ChildContent);
             builder.CloseElement();
         }
 

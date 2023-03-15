@@ -63,11 +63,11 @@ namespace JGLB.MDUI
                 builder.AddAttribute(2, "id", Id);
                 builder.AddAttribute(3, "class", ClassMapper.Class);
                 builder.AddAttribute(4, "style", Style);
-                builder.AddElementReferenceCapture(5, x => Ref = x);
-                builder.AddAttribute(6, "onMduiCollapseOpen", EventCallback.Factory.Create(this, onMduiCollapseOpen));
-                builder.AddAttribute(7, "onMduiCollapseOpened", EventCallback.Factory.Create(this, onMduiCollapseOpened));
-                builder.AddAttribute(8, "onMduiCollapseClose", EventCallback.Factory.Create(this, onMduiCollapseClose));
-                builder.AddAttribute(9, "onMduiCollapseClosed", EventCallback.Factory.Create(this, onMduiCollapseClosed));
+                builder.AddAttribute(5, "onMduiCollapseOpen", EventCallback.Factory.Create(this, onMduiCollapseOpen));
+                builder.AddAttribute(6, "onMduiCollapseOpened", EventCallback.Factory.Create(this, onMduiCollapseOpened));
+                builder.AddAttribute(7, "onMduiCollapseClose", EventCallback.Factory.Create(this, onMduiCollapseClose));
+                builder.AddAttribute(8, "onMduiCollapseClosed", EventCallback.Factory.Create(this, onMduiCollapseClosed));
+                builder.AddElementReferenceCapture(9, x => Ref = x);
                 builder.AddContent(10, ChildContent);
                 builder.CloseElement();
             }

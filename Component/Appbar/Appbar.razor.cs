@@ -36,6 +36,11 @@ namespace JGLB.MDUI
         /// </summary>
         [Parameter]
         public bool ScrollToolbarHide { get; set; }
+        /// <summary>
+        /// 抽屉栏高度为 100%时抽屉栏可能会覆盖在应用栏上方，使应用栏不被抽屉栏覆盖
+        /// </summary>
+        [Parameter]
+        public bool DrawerInset { get; set; }
 
         internal Tab? Tab { get; set; }
         internal Toolbar? Toolbar { get; set; }
@@ -51,10 +56,11 @@ namespace JGLB.MDUI
         protected void SetClassMap()
         {
             ClassMapper.Add("mdui-appbar")
-                .If("mdui-appbar-fixed", ()=>Fixed)
+                .If("mdui-appbar-fixed", () => Fixed)
                 .If("mdui-appbar-scroll-hide", () => ScrollHide)
                 .If("mdui-appbar-scroll-toolbar-hide", () => ScrollToolbarHide)
-                .If("mdui-shadow-0",() => Transparent)
+                .If("mdui-shadow-0", () => Transparent)
+                .If("mdui-appbar-inset", () => DrawerInset)
                 ;
         }
     }

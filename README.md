@@ -1,5 +1,5 @@
 ﻿## 自用 MDUI Blazor组件包
-自用，暂无文档 
+自用，暂无文档  
 Pages/_Host.cshtml加入：
 ```
 <link href="_content/JGLB.MDUI/css/mdui.min.css" rel="stylesheet" />

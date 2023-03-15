@@ -15,7 +15,7 @@ namespace JGLB.MDUI
         [Parameter(CaptureUnmatchedValues = true)] 
         public Dictionary<string, object>? AdditionalAttributes { get; set; }
         [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        public RenderFragment? ChildContent { get; set; }
         /// <summary>
         /// html标签
         /// </summary>

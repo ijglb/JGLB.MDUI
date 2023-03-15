@@ -114,11 +114,11 @@ namespace JGLB.MDUI.Component
                 builder.SetUpdatesAttributeName("value");
             }
 
-            builder.AddElementReferenceCapture(8, __selectReference => Ref = __selectReference);
-            builder.AddContent(9, ChildContent);
+            builder.AddAttribute(8, "id", Id);
+            builder.AddAttribute(9, "style", Style);
 
-            builder.AddAttribute(10, "id", Id);
-            builder.AddAttribute(11, "style", Style);
+            builder.AddElementReferenceCapture(10, __selectReference => Ref = __selectReference);
+            builder.AddContent(11, ChildContent);
 
             builder.CloseElement();
         }

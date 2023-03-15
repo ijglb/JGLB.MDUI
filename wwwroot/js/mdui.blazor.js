@@ -199,6 +199,34 @@ Blazor.registerCustomEventType('MduiDialogConfirm', {
         };
     }
 });
+Blazor.registerCustomEventType('MduiMenuOpen', {
+    browserEventName: 'open.mdui.menu',
+    createEventArgs: event => {
+        return {
+        };
+    }
+});
+Blazor.registerCustomEventType('MduiMenuOpened', {
+    browserEventName: 'opened.mdui.menu',
+    createEventArgs: event => {
+        return {
+        };
+    }
+});
+Blazor.registerCustomEventType('MduiMenuClose', {
+    browserEventName: 'close.mdui.menu',
+    createEventArgs: event => {
+        return {
+        };
+    }
+});
+Blazor.registerCustomEventType('MduiMenuClosed', {
+    browserEventName: 'closed.mdui.menu',
+    createEventArgs: event => {
+        return {
+        };
+    }
+});
 
 window.mduiblazor =
 {
@@ -239,6 +267,15 @@ window.mduiblazor =
             return new mdui.Panel(selector);
         else
             return new mdui.Panel(selector, options);
+    },
+    Menu: function (openElementId, selector, options) {
+        if (options == null)
+            return new mdui.Menu(openElementId, selector);
+        else
+        {
+            options.fixed = options._fixed;
+            return new mdui.Menu(openElementId, selector, options);
+        }
     },
     Dialog: function (selector, options) {
             return new mdui.Dialog(selector, options);

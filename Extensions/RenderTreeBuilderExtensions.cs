@@ -26,7 +26,7 @@ namespace JGLB.MDUI
             builder.AddAttribute(seq++, "Value", value);
             builder.AddAttribute(seq++, "IsFixed", isFixed);
             builder.AddAttribute(seq++, "ChildContent", childContent);
-            if (string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 builder.AddAttribute(seq++, "Name", name);
             }

@@ -32,6 +32,10 @@ namespace JGLB.MDUI.Events
     [EventHandler("onMduiDialogClosed", typeof(EventArgs), enableStopPropagation: true, enablePreventDefault: true)]
     [EventHandler("onMduiDialogCancel", typeof(EventArgs), enableStopPropagation: true, enablePreventDefault: true)]
     [EventHandler("onMduiDialogConfirm", typeof(EventArgs), enableStopPropagation: true, enablePreventDefault: true)]
+    [EventHandler("onMduiMenuOpen", typeof(EventArgs), enableStopPropagation: true, enablePreventDefault: true)]
+    [EventHandler("onMduiMenuOpened", typeof(EventArgs), enableStopPropagation: true, enablePreventDefault: true)]
+    [EventHandler("onMduiMenuClose", typeof(EventArgs), enableStopPropagation: true, enablePreventDefault: true)]
+    [EventHandler("onMduiMenuClosed", typeof(EventArgs), enableStopPropagation: true, enablePreventDefault: true)]
     public static class EventHandlers
     {
     }

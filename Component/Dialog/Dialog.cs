@@ -96,13 +96,13 @@ namespace JGLB.MDUI
                 builder.AddAttribute(2, "id", Id);
                 builder.AddAttribute(3, "class", ClassMapper.Class);
                 builder.AddAttribute(4, "style", Style);
-                builder.AddElementReferenceCapture(5, x => Ref = x);
-                builder.AddAttribute(6, "onMduiDialogOpen", EventCallback.Factory.Create(this, onMduiDialogOpen));
-                builder.AddAttribute(7, "onMduiDialogOpened", EventCallback.Factory.Create(this, onMduiDialogOpened));
-                builder.AddAttribute(8, "onMduiDialogClose", EventCallback.Factory.Create(this, onMduiDialogClose));
-                builder.AddAttribute(9, "onMduiDialogClosed", EventCallback.Factory.Create(this, onMduiDialogClosed));
-                builder.AddAttribute(10, "onMduiDialogCancel", EventCallback.Factory.Create(this, onMduiDialogCancel));
-                builder.AddAttribute(11, "onMduiDialogConfirm", EventCallback.Factory.Create(this, onMduiDialogConfirm));
+                builder.AddAttribute(5, "onMduiDialogOpen", EventCallback.Factory.Create(this, onMduiDialogOpen));
+                builder.AddAttribute(6, "onMduiDialogOpened", EventCallback.Factory.Create(this, onMduiDialogOpened));
+                builder.AddAttribute(7, "onMduiDialogClose", EventCallback.Factory.Create(this, onMduiDialogClose));
+                builder.AddAttribute(8, "onMduiDialogClosed", EventCallback.Factory.Create(this, onMduiDialogClosed));
+                builder.AddAttribute(9, "onMduiDialogCancel", EventCallback.Factory.Create(this, onMduiDialogCancel));
+                builder.AddAttribute(10, "onMduiDialogConfirm", EventCallback.Factory.Create(this, onMduiDialogConfirm));
+                builder.AddElementReferenceCapture(11, x => Ref = x);
                 builder.AddContent(12, ChildContent);
                 builder.CloseElement();
             }

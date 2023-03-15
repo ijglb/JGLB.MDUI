@@ -34,6 +34,11 @@ namespace JGLB.MDUI
         /// </summary>
         [Parameter]
         public bool MenuItemIcon { get; set; }
+        /// <summary>
+        /// 折叠内容块插件展开收起图标
+        /// </summary>
+        [Parameter]
+        public bool CollapseItemArrow { get; set; }
 
         [CascadingParameter]
         private Tab? Tab { get; set; }
@@ -49,6 +54,18 @@ namespace JGLB.MDUI
             SetClassMap();
         }
 
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+            if ((PanelItemArrow || CollapseItemArrow) && ChildContent == null)
+            {
+                ChildContent = (builder) =>
+                {
+                    builder.AddContent(0, "keyboard_arrow_down");
+                };
+            }
+        }
+
         protected void SetClassMap()
         {
             ClassMapper
@@ -57,6 +74,7 @@ namespace JGLB.MDUI
                 .GetIf(() => $"mdui-icon-{LocationInButton}", () => !string.IsNullOrWhiteSpace(LocationInButton))
                 .If("mdui-panel-item-arrow", () => PanelItemArrow)
                 .If("mdui-menu-item-icon", () => MenuItemIcon)
+                .If("mdui-collapse-item-arrow", () => CollapseItemArrow)
                 ;
         }
     }
